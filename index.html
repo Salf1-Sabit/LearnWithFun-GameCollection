@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Learn With Fun</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/1064f0ad1cb65fdab43bb592ddd8aa91?family=Gilroy-Bold" rel="stylesheet"
+        type="text/css" />
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Calistoga&family=Fascinate+Inline&family=Modak&display=swap" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/gotham" rel="stylesheet">
+                
+    <script src="app.js" type="text/javascript" defer></script>
+</head>
+
+<body >
+    <!-- Adding Background -->
+    <div class="night-background">
+        <div class="div"></div>
+        
+        <!-- Adding Moon -->
+        <!-- <div class="moon">
+            <img src="Assets/Moon.png" alt="Moon">
+        </div> -->
+
+        <!-- Creating the logo -->
+        <a href="index.html">
+            <p class="Learn-With-Fun">LearnWithFun.</p>
+        </a>
+
+        <!-- Adding Road -->
+        <div class="road">
+            <!-- <img src="/HomePageAssets/Img_02.png" alt="road"> -->
+        </div>
+
+        <!-- About-us + info Icon-->
+        <p class="about-us">Developed by Maria & Sabit</p>
+        <img class="icon-info" src="Assets/info.png" alt="Info">
+
+
+        <!-- Adding Car -->
+        <div class="car">
+            <img src="HomePageAssets/Img_06.png" alt="Car">
+        </div>
+        <div class="all-buttons">
+            <button class="flip-flop" onclick="toggleFlipFlop()">Flip Flop</button>
+            <button class="snake-game" onclick="toggleSnakeGame()">Snake Game</button>
+            <button class="racing-car" onclick="toggleRacingCar()">Racing Car</button>
+        </div>
+        <a href="day.html">
+            <div class="icon-day-night">
+                <img class="icon-common-settings" src="Assets/day_night_icon.png" alt="icon-day-night">
+            </div>
+        </a>
+        <div class="icon-volume">
+            <img class="icon-common-settings" src="Assets/volumeGlow_icon.png" alt="volume-icon"
+                onclick="changeVolumeIcon(this)">
+        </div>
+        <div class="pop-up-flipFlop">
+            <button class="X-Button">x</button>
+            <h3 class="pop-up-heading">Instructions</h3>
+            <p class="pop-up-paragraph">In this game mode, you have 16 cards and 50 seconds. You have to flip them one by one and if you find a match between two cards then you will earn 12.5 points for each match.</p>
+            <video autoplay loop  width="310px" muted>
+                <source src="Video/flip_flop.mp4">
+            </video>
+            <a href="flipFlop.html">
+                <button class="play-button">Play</button>
+            </a>
+        </div>
+        <div class="pop-up-snakGame">
+            <h3 class="pop-up-heading">Maintenance</h3>
+            <p class="pop-up-paragraph">This game mode is under construction.</p>
+            <button class="play-button close-button">Close</button>
+        </div>
+        <div class="pop-up-racingCar">
+            <h3 class="pop-up-heading">Maintenance</h3>
+            <p class="pop-up-paragraph">This game mode is under construction.</p>
+            <button class="play-button close-button-racing">Close</button>
+        </div>
+    </div>
+</body>
+
+</html>

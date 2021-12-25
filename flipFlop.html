@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flip Flop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Calistoga&display=swap" rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/1064f0ad1cb65fdab43bb592ddd8aa91?family=Gilroy-Bold" rel="stylesheet" type="text/css"/>
+    <link href="http://fonts.cdnfonts.com/css/chunq" rel="stylesheet">
+    <!-- font-family: 'Chunq', sans-serif; -->
+
+    <!-- Adding JS -->
+    <script>
+        var memory = ['A','A','B','B','C', 'C', 'D','D','E','E','F','F','G','G','H','H'];
+        var values = [];
+        var tiles_ids = [];
+        var flipped_tiles = 0;
+        var totalPoint = 0;
+
+        var popUpSnakeGame = document.querySelector(".pop-up-snakGame");
+
+        Array.prototype.shuffle_Elements = function(){
+            var i = this.length;
+            while(--i > 0){
+                var j = Math.floor(Math.random() * (i+1));
+                var temp = memory[j];
+                memory[j] = memory[i];
+                memory[i] = temp;
+            }
+        }
+        // Timer
+        var countTime = 60;
+        function startCountDown(){ 
+                setInterval(interval, 1000);
+        }
+        function interval(){
+            if(countTime > -1){
+                document.querySelector(".seconds").innerHTML = countTime--;
+                if(countTime <= 9){
+                    document.querySelector(".seconds").classList.add("changeTimerPosition");
+                }
+            }
+            if(countTime == 0){
+                document.querySelector('.board').innerHTML = "";
+                var popUP = document.querySelector(".pop-up-snakGame");
+                popUP.classList.add("active");
+                popUP.classList.add("open");
+
+                var theBoard = document.querySelector(".board");
+                theBoard.classList.add("blur");
+
+                var score = document.querySelector(".score");
+                score.innerHTML = totalPoint+" points";
+
+                var time = document.querySelector(".time");
+                time.innerHTML = (60-countTime)+" seconds";
+
+                totalPoint = 0;
+                countTime = 60;
+            }
+        }
+
+
+        function newBoard(){
+            flipped_tiles = 0;
+            var created_Divs = '';
+            memory.shuffle_Elements();
+
+            for(var i=0; i<memory.length; i++){
+                created_Divs += '<div id="tile_'+i+'" onClick="flipTile(this,\''+memory[i]+'\'); makeSound();"></div>';
+            }
+            document.querySelector('.board').innerHTML = created_Divs;
+        }
+
+        // Adding flipping sounds
+        var buttonClickSound = new Audio("Audio/button_click.mp3");
+        function makeSound(){
+            buttonClickSound.play();
+        };
+
+        function flipTile(tile, val){
+            if(tile.innerHTML == "" && values.length < 2){
+                tile.innerHTML = val;
+                if(values.length == 0){
+                    values.push(val);
+                    tiles_ids.push(tile.id);
+                }
+                else if(values.length == 1){
+                    values.push(val);
+                    tiles_ids.push(tile.id);
+                    if(values[0] == values[1]){
+                        totalPoint += 12.5;
+                        flipped_tiles += 2;
+                        values = [];
+                        tiles_ids = [];
+                        if(flipped_tiles == memory.length){   
+                            // alert("Total time = " + (50 - countTime)); //Add Score popup
+                            document.querySelector('.board').innerHTML = "";
+                            var popUP = document.querySelector(".pop-up-snakGame");
+
+                            var playButton = document.querySelector(".play-button"); 
+                            playButton.classList.add("play-close-change");
+                            
+                            var closeButton = document.querySelector(".close-button"); 
+                            closeButton.classList.add("play-close-change");
+
+                            popUP.classList.add("active");
+                            popUP.classList.add("open");
+
+                            var theBoard = document.querySelector(".board");
+                            theBoard.classList.add("blur");
+
+                            var score = document.querySelector(".score");
+                            score.innerHTML = "Excellent!<br>Board Clear!";
+
+                            var time = document.querySelector(".time");
+                            time.innerHTML = "You got "+totalPoint+" points in "+((60-countTime)-1)+" seconds";
+
+                            totalPoint = 0;
+                            countTime = 60;
+                        }
+                    } 
+                    else{
+                        function setToDefault(){
+                            var box1 = document.getElementById(tiles_ids[0]);
+                            var box2 = document.getElementById(tiles_ids[1]);
+
+                            box1.innerHTML = "";
+                            box2.innerHTML = "";
+
+                            values = [];
+                            tiles_ids = [];
+                        }
+                        setTimeout(setToDefault, 500);
+                    }
+                }
+            }
+        }     
+
+        // Add close class 
+        function buttonCloseAnimation(){
+            var popUP = document.querySelector(".pop-up-snakGame");
+            popUP.classList.add("close");
+            popUP.classList.remove("active");
+        }
+    </script>
+
+    <!-- Adding CSS -->
+    <style>
+        @import url(https://db.onlinewebfonts.com/c/1064f0ad1cb65fdab43bb592ddd8aa91?family=Gilroy-Bold);
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+        .board{
+            background-color: #ff6b6b;
+            height: 100vh;
+            width: 100vw;
+            padding: .005px;
+            display: flex; 
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .board > div{
+            z-index: 1;
+            float: left;
+            position: relative;
+            background-color: #ff3f3f;
+            left: 2px;
+            height: 21.5vh;
+            flex: 1 1 20vw;
+            margin: 2px;
+            font-size: 8.5rem;
+            text-shadow: 0 0 20px rgba(0, 0, 0, .3);
+            padding: 20px;
+            color: white;
+            font-family: 'Gotham', sans-serif;
+            text-align: center;
+            caret-color: transparent;
+            /* box-shadow: 3px 5px 10px gray; */
+            cursor: pointer;
+            transition: .1s;
+        }
+        .board > div:hover{
+            z-index: 1;
+            left: -1px;
+            top: -1px;
+            background-color: #ff7777;
+            box-shadow: 0px 0px 17px rgba(0, 0, 0, .3);
+            animation: movingBox 2s linear infinite;
+        }
+        @keyframes movingBox {
+            0%{transform: translateY(0px);}
+            35%{transform: translateY(4px);}
+            70%{transform: translateY(-4px);}
+            100%{transform: translateY(0px);}
+        }
+        .timer{
+           position: fixed;
+           height: 3px;
+           width: 6px;
+           /* display: flex; */
+           /* background-color: white; */
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           /* padding: 30px; */
+           text-align: center;
+           caret-color: transparent;
+           z-index: 1;
+        }
+
+        .seconds{
+            background-color: #fff;
+            /* flex-wrap: wrap; */
+            height: 0%;
+            /* padding: 0%; */
+            position: absolute;
+            font-family: 'Gotham', sans-serif;
+            color: rgba(255, 255, 255, .2);
+            font-size: 20rem;
+            transform: translateX(-210px) translateY(-500px);
+            z-index: 1;
+            letter-spacing: 5px;
+       }
+       .changeTimerPosition{
+        transform: translateY(-500px) translate(-70px);
+       }
+        /* @media screen and (max-width:1920px){
+            .board > div{
+                height: 21.5vh;
+                flex: 1 1 20vw;
+            }
+        }
+        @media screen and (max-width:1366px){
+            .board > div{
+                height: 21.5vh;
+                flex: 1 1 20vw;
+            }
+        } 
+        @media screen and (max-width:740px){
+            .board > div{
+                height: 21.5vh;
+                flex: 1 1 20vw;
+            }
+        }  */
+        .pop-up-snakGame {
+            position: absolute;
+            z-index: 2;
+            width: 500px;
+            height: 500px;
+            background-color: #fff;
+            top: 15%;
+            left: 32%;
+            padding: 100px;
+            text-align: center;
+            /* transform: translate(-50%, -50%); */
+            box-shadow: 0 0 10px #fff, 0 0 30px #fff, 0 0 100px #fff;
+            overflow: hidden;
+            display: none;
+        }
+        .pop-up-racingCar h3, .pop-up-snakGame h3{
+            transform: translateY(50px);
+        }
+        .pop-up-racingCar p, .pop-up-snakGame p{
+            transform: translateY(50px);
+        }
+        .pop-up-racingCar button, .pop-up-snakGame button{
+        transform: translateY(50px);
+        }
+        .pop-up-racingCar button:hover , .pop-up-snakGame button:hover{
+            transform: translateY(50px) scale(1.1);
+        }
+        .pop-up-heading {
+            position: absolute;
+            font-family: 'Gotham', sans-serif;
+            font-size: 5rem;
+            color: #ff3f3f;
+            caret-color: transparent;
+            font-weight: bolder;
+            text-align: center;
+            /* margin-top: 10px; */
+            top: 2%;
+            left: 19%;
+        }
+        .pop-up-paragraph {
+            position: relative;
+            color: #ff3f3f;
+            font-family: 'Gotham', sans-serif;
+            margin: 20px;
+            font-size: 2rem;
+            caret-color: transparent;
+            text-align: center;
+            top: 25%;
+            left: 0%;
+            /* transform: translateY(-60px); */
+        }
+        .play-button, .close-button{
+            position: absolute;
+            text-align: center;
+            background-color: #ff3f3f;
+            border: none;
+            width: 200px;
+            outline: none;
+            color: white;
+            font-family: 'Gotham', sans-serif;
+            margin-top: 60px;
+            padding: 12px;
+            font-size: 2.5rem;
+            caret-color: transparent;
+            text-transform: uppercase;
+            /* text-shadow: 0 0 10px #111; */
+            box-shadow: 0 0 40px rgba(255, 63, 63, .5);
+            border-radius: 50px;
+            transition: 0.3s;
+            /* transform: translateY(-60px); */
+        }
+        .play-button{
+            top: 50%;
+            left: 19%;
+        }
+        .close-button{
+            top: 50%;
+        }
+        .play-close-change{
+            top: 60%;
+        }
+        .active {
+            display: block;
+
+        }
+        .open {
+            animation: open 0.5s linear forwards;
+        }
+        .close {
+            animation: close 0.5s linear forwards;
+        }
+        @keyframes open {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            70% {
+                transform: scale(0.95);
+            }
+            95% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes close {
+            100% {
+                transform: scale(0);
+            }
+            95% {
+                transform: scale(1.2);
+            }
+            70% {
+                transform: scale(0.95);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            0% {
+                transform: scale(1);
+            }
+        }
+        /* .blur{
+            position: absolute;
+            z-index: 2;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .3);
+            -webkit-filter: blur(8px);
+            top: 0%;
+            left: 0%;
+            
+        } */
+        .blur{
+            filter: blur(5px);
+        }
+        .hover-off-blur{
+            background-color: #ff3f3f;
+        }
+    </style>
+</head>
+    <body onload="newBoard(); startCountDown();">
+    <div class="board">
+    </div>
+    <div class="timer">
+        <p class="seconds">60</p> 
+    </div>
+    <div class="pop-up-snakGame">
+        <h3 class="pop-up-heading">Play Again?</h3>
+        <p class="pop-up-paragraph score"></p>
+        <p class="pop-up-paragraph time"></p>
+        <a href="flipFlop.html">
+            <button class="play-button" onclick="newBoard(); makeSound(); buttonCloseAnimation();">Play</button>
+        </a>
+        <a href="index.html">
+            <button class="close-button">Close</button>
+        </a>
+    </div>
+    <script></script>
+</body>
+</html>
