@@ -35,7 +35,7 @@ Explore the world of learning through play and stay tuned for further updates an
 </details>
 
 <details>
-  <summary>Gameplay</summary>
+  <summary>Flip Flop - Gameplay</summary>
   <img src="https://github.com/Salf1-Sabit/Salf1-Sabit-LearnWithFun-TheGame/assets/70028517/7d38b5e2-152a-40f3-9ee1-fad221c735c4" alt="gameplay">
 </details>
 
