@@ -1,6 +1,7 @@
 # LearnWithFun Game Collection
 
-LearnWithFun is an online game collection designed for educational purposes, currently featuring one game due to ongoing development. The project, although non-responsive, includes three games with plans for further expansion in the future.
+LearnWithFun is an online game collection designed for educational purposes, currently featuring one game due to ongoing development. The project, although non-responsive, includes three games with plans for further expansion in the future. <br>
+[**Live Link**](https://salf1-sabit.github.io/LearnWithFun-GameCollection/)
 
 ## Features
 
